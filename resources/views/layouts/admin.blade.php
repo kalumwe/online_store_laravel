@@ -24,6 +24,15 @@
         <li>
           <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home page</a>
         </li>
+        @auth
+        <li>
+          <form id="logout" action="{{ route('logout') }}" method="POST">
+            <a role="button" class="nav-link text-white"
+            onclick="document.getElementById('logout').submit();">Logout</a>
+         @csrf
+        </form>
+       @endauth
+       </li>
       </ul>
     </div>
     <!-- sidebar -->
