@@ -13,6 +13,10 @@
            {{ $viewData["product"]->getName() }} (${{ $viewData["product"]->getPrice() }})
         </h5>
         <p class="card-text">{{ $viewData["product"]->getDescription() }}</p>
+
+        @if (in_array($viewData["product"]->getId(), $viewData["cart"]))
+           <button id="addToCartButton" disabled>Added to Cart</button>
+        @else
         <p class="card-text">
             <form method="POST" action="{{ route('cart.add', ['id'=> $viewData['product']->getId()]) }}">
               <div class="row">
@@ -29,8 +33,10 @@
              </div>
             </form>
         </p>
+        @endif
       </div>
     </div>
   </div>
 </div>
 @endsection
+

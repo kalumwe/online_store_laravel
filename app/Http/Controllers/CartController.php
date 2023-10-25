@@ -19,6 +19,7 @@ class CartController extends Controller
         if ($productsInSession) {
             $productsInCart = Product::findMany(array_keys($productsInSession));
             $total = Product::sumPricesByQuantities($productsInCart, $productsInSession);
+
         }
 
         $viewData = [];

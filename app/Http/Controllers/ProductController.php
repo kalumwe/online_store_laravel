@@ -17,13 +17,23 @@ class ProductController extends Controller
         return view('product.index')->with("viewData", $viewData);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $viewData = [];
+        $productsInCart = [];
+
+        $productsInSession = $request->session()->get("products", []);
+        foreach ($productsInSession as $item) {
+            $productsInCart[] = $item['id'];
+        }
+
+
+
         $product = Product::findOrFail($id);
         $viewData["title"] = $product->getName()." - Online Store";
         $viewData["subtitle"] = $product->getName()." - Product information";
         $viewData["product"] = $product;
+        $viewData["cart"] = $productsInCart;
         return view('product.show')->with("viewData", $viewData);
     }
 }
