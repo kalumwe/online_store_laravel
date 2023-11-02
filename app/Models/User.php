@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Order;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
      * $this->attributes['remember_token'] - string - contains the user password
      * $this->attributes['role'] - string - contains the user role (client or admin)
      * $this->attributes['balance'] - int - contains the user balance
+     * $this->orders - Order[] - contains the associated orders
      * $this->attributes['created_at'] - timestamp - contains the user creation date
      * $this->attributes['updated_at'] - timestamp - contains the user update date
      */
@@ -135,5 +137,20 @@ class User extends Authenticatable
     public function setUpdatedAt($updatedAt)
     {
         $this->attributes['updated_at'] = $updatedAt;
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getOrders()
+    {
+       return $this->orders;
+    }
+
+    public function setOrders($orders)
+    {
+       $this->orders = $orders;
     }
 }

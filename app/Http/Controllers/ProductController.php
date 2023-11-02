@@ -24,7 +24,7 @@ class ProductController extends Controller
 
         $productsInSession = $request->session()->get("products", []);
         foreach ($productsInSession as $item) {
-            $productsInCart[] = $item['id'];
+            //$productsInCart[] = $item['id'];
         }
 
 
