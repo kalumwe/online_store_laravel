@@ -15,4 +15,5 @@
   </div>
   @endforeach
 </div>
+ {{ $viewData["products"]->links('vendor.pagination.bootstrap-5') }}
 @endsection
