@@ -27,6 +27,8 @@ Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("
 Route::middleware('auth')->group(function () {
     Route::get('/cart/purchase', 'App\Http\Controllers\CartController@purchase')->name("cart.purchase");
     Route::get('/my-account/orders', 'App\Http\Controllers\MyAccountController@orders')->name("myaccount.orders");
+    Route::get('/my-account/reset-password', 'App\Http\Controllers\Auth\ResetPasswordController@reset')->name("auth.passwords.reset");
+    Route::put('/my-account/reset-password/reset/', 'App\Http\Controllers\Auth\ResetPasswordController@update')->name("auth.passwords.update");
 });
 
 Route::middleware('admin')->group(function () {
