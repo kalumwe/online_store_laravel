@@ -59,14 +59,14 @@ class ResetPasswordController extends Controller
 
          // Check if the user exists
          if (!$user) {
-            return back()->with('error', 'User with this email does not exist.');
+            return redirect()->back()->with('error', 'User with this email does not exist.');
         }
 
         $password = $user->getPassword();
 
         // Check if the current password is correct
         if (!Hash::check($request->input('current_password'), $password)) {
-            return back()->with('error', 'The current password is incorrect.');
+            return redirect()->back()->with('error', 'The current password is incorrect.');
         }
 
         $new_password = Hash::make($request->input('password'));
