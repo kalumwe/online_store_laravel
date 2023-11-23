@@ -9,7 +9,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\CustomMail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use App\Mail\MailService;
+use Illuminate\Support\Facades\Log;
+//use App\Mail\CustomMail;
 
 class HomeController extends Controller
 {
@@ -31,23 +35,33 @@ class HomeController extends Controller
 
   }
 
-  public function send(Request $request)
+  public function send(Request $request, MailService $mailService)
     {
         $validatedData = $request->validate([
             'name' => 'required|max:100',
-            'to' => 'required|email',
+            'email' => 'required|email',
             'subject' => 'required',
             'message' => 'required',
         ]);
 
+
         $name = $validatedData['name'];
-        $to = $validatedData['to'];
+        $to = $validatedData['email'];
         $subject = "Name: " . $name;
         $subject .= "Subject: " . $validatedData['subject'];
-        $message = $validatedData['message'];
+        $messageBody = $validatedData['message'];
 
-        Mail::to($to)->send(new CustomMail($subject, $message)); // CustomMail is your Mailable class
 
-        return redirect()->route('home.about')->with('success', 'Email sent successfully!');
+        $sendMail = $mailService->sendEmail($to, $subject, $messageBody); // CustomMail is your Mailable class
+        /*
+        $sendMail = Mail::raw($messageBody, function ($mail) use ($to, $subject) {
+            $mail->to($to)->subject($subject);
+        });*/
+
+        if ($sendMail) {
+            return redirect()->route('home.about')->with('success', 'Email sent successfully!');
+        } else {
+            return redirect()->route('home.about')->with('error', 'Email not sent!');
+        }
     }
 }

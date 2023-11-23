@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -64,11 +65,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'balance' => 5000,
-        ]);
+        try {
+
+            $createUser = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'balance' => 5000,
+            ]);
+
+            Log::info('User ' . $data['name'] . ' registered successfully.');
+            return $createUser;
+
+            } catch (Exception $e) {
+                Log::error('Error occurred: ' . $e->getMessage());
+
+            }
+
+        /*
+        if ($createUser) {
+            return response()->json(['success' => 'Form submitted successfully!']);
+        } else {
+            return response()->json(['error' => 'Error occurred while submitting the form.']);
+        }*/
     }
 }

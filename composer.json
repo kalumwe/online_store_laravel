@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "phpmailer/phpmailer": "^6.8",
         "symfony/http-client": "^6.3",
         "symfony/mailgun-mailer": "^6.3",
         "symfony/postmark-mailer": "^6.3"

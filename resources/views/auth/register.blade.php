@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" id="submit-form">
                         @csrf
 
                         <div class="row mb-3">
@@ -69,9 +69,27 @@
                             </div>
                         </div>
                     </form>
+                    <div id="responseMessage"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+<script>
+    $('#submit-for').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "{{ route('register') }}",
+            type: "POST",
+            data: $(this).serialize(),
+            success: function(response) {
+                $('#responseMessage').text(response.success);
+            },
+            error: function(xhr, status, error) {
+                $('#responseMessage').text(xhr.responseJSON.error);
+            }
+        });
+    });
+</script>

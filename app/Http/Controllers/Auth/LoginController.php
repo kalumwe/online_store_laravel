@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -44,9 +45,23 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
+       try {
+
        if (Auth::user() && Auth::user()->getRole() === 'admin') {
-           return $this->redirectTo["admin"];
+        Log::info('Admin ' . Auth::user()->getName() . ' logged in successfully.');
+
+        return $this->redirectTo["admin"];
        }
+
+       Log::info('User ' . Auth::user()->getName() . ' logged in successfully.');
+
        return $this->redirectTo["home"];
+
+       } catch (Exception $e) {
+                // Log an error or exception
+                Log::error('Error occurred: ' . $e->getMessage());
+
+                // Handle the exception
+       }
    }
 }
